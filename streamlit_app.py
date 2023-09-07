@@ -18,7 +18,7 @@ for msg in st.session_state.messages:
 
 if prompt := st.chat_input():
     if not openai_api_key:
-        st.info("Please add your OpenAI API key to continue.")
+        st.info("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")
         st.stop()
 
     openai.api_key = openai_api_key
