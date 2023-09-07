@@ -1,12 +1,14 @@
-# First
+# First, correct the import statements
 import openai
 import streamlit as st
+
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
-    "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
-    "[View the source code](https://github.com/streamlit/llm-examples/blob/main/Chatbot.py)"
-    "[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)"
+    st.markdown("[Get an OpenAI API key](https://platform.openai.com/account/api-keys)")
+    st.markdown("[View the source code](https://github.com/streamlit/llm-examples/blob/main/Chatbot.py)")
+    st.markdown("[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)")
 
+# Use a proper if statement
 if "messages" not in st.session_state:
     st.title("💬 Chatbot")
     st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
@@ -16,7 +18,7 @@ for msg in st.session_state.messages:
 
 if prompt := st.chat_input():
     if not openai_api_key:
-        st.info("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")
+        st.info("Please add your OpenAI API key to continue.")
         st.stop()
 
     openai.api_key = openai_api_key
