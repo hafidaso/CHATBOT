@@ -1,4 +1,3 @@
-# First, correct the import statements
 import openai
 import streamlit as st
 
@@ -8,7 +7,6 @@ with st.sidebar:
     st.markdown("[View the source code](https://github.com/streamlit/llm-examples/blob/main/Chatbot.py)")
     st.markdown("[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)")
 
-# Use a proper if statement
 if "messages" not in st.session_state:
     st.title("💬 Chatbot")
     st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
@@ -24,7 +22,11 @@ if prompt := st.chat_input():
     openai.api_key = openai_api_key
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
-    response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
-    msg = response.choices[0].message
-    st.session_state.messages.append(msg)
-    st.chat_message("assistant").write(msg.content)
+    
+    try:
+        response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+        msg = response.choices[0].message
+        st.session_state.messages.append(msg)
+        st.chat_message("assistant").write(msg.content)
+    except openai.error.RateLimitError:
+        st.error("We've exceeded our rate limit for OpenAI API calls. Please try again later.")
